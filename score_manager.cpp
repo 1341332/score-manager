@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_TEXT_NUM 100    
+#define MAX_TEXT_LEN 256    
+
+char texts[MAX_TEXT_NUM][MAX_TEXT_LEN];
+int count = 0;             
+void menu() {
+    printf("\n====== 文本管理系统 ======\n");
+    printf("1. 添加文本\n");
+    printf("2. 删除文本\n");
+    printf("3. 查找文本\n");
+    printf("4. 显示所有文本\n");
+    printf("0. 退出\n");
+    printf("==========================\n");
+    printf("请选择：");
+}
+void addText() {
+    if (count >= MAX_TEXT_NUM) {
+        printf("文本数量已达上限，无法添加！\n");
+        return;
+    }
+    printf("请输入文本内容：");
+
+    getchar();
+    fgets(texts[count], MAX_TEXT_LEN, stdin);
+    texts[count][strcspn(texts[count], "\n")] = '\0';
+    count++;
+    printf("添加成功！\n");
+}
+
+void deleteText() {
+    if (count == 0) {
+        printf("暂无文本可删除！\n");
+        return;
+    }
+
+    int i, index;
+    printf("\n当前文本列表：\n");
+    for (i = 0; i < count; i++) {
+        printf("%d. %s\n", i + 1, texts[i]);
+    }
+
+    printf("请输入要删除的序号：");
+    scanf("%d", &index);
+    index--;
+
+    if (index < 0 || index >= count) {
+        printf("序号无效！\n");
+        return;
+    }
+    for (i = index; i < count - 1; i++) {
+        strcpy(texts[i], texts[i + 1]);
+    }
+    count--;
+    printf("删除成功！\n");
+}
+void searchText() {
+    if (count == 0) {
+        printf("暂无文本可查找！\n");
+        return;
+    }
+
+    char key[MAX_TEXT_LEN];
+    printf("请输入查找关键词：");
+    getchar();
+    fgets(key, MAX_TEXT_LEN, stdin);
+    key[strcspn(key, "\n")] = '\0';
+
+    int found = 0;
+    printf("\n查找结果：\n");
+    for (int i = 0; i < count; i++) {
+        if (strstr(texts[i], key) != NULL) {
+            printf("- %s\n", texts[i]);
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("未找到包含关键词的文本。\n");
+    }
+}
+void showAll() {
+    if (count == 0) {
+        printf("暂无文本！\n");
+        return;
+    }
+
+    printf("\n所有文本：\n");
+    for (int i = 0; i < count; i++) {
+        printf("%d. %s\n", i + 1, texts[i]);
+    }
+}
+
+int main() {
+    int choice;
+    while (1) {
+        menu();
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addText(); break;
+            case 2: deleteText(); break;
+            case 3: searchText(); break;
+            case 4: showAll(); break;
+            case 0:
+                printf("退出系统。\n");
+                return 0;
+            default:
+                printf("输入错误，请重新选择！\n");
+        }
+    }
+    return 0;
+}
