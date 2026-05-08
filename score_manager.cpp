@@ -3,74 +3,75 @@
 #include <stdlib.h>
 
 #define MAX_TEXT_NUM 100    
-#define MAX_TEXT_LEN 256    
+#define MAX_TEXT_LEN 256 
+#define PAGE_SIZE 5
 
 char texts[MAX_TEXT_NUM][MAX_TEXT_LEN];
 int count = 0;             
 void menu() {
-    printf("\n====== ÎÄ±¾¹ÜÀíÏµÍ³ ======\n");
-    printf("1. Ìí¼ÓÎÄ±¾\n");
-    printf("2. É¾³ıÎÄ±¾\n");
-    printf("3. ²éÕÒÎÄ±¾\n");
-    printf("4. ÏÔÊ¾ËùÓĞÎÄ±¾\n");
-    printf("0. ÍË³ö\n");
+    printf("\n====== æ–‡æœ¬ç®¡ç†ç³»ç»Ÿ ======\n");
+    printf("1. æ·»åŠ æ–‡æœ¬\n");
+    printf("2. åˆ é™¤æ–‡æœ¬\n");
+    printf("3. æŸ¥æ‰¾æ–‡æœ¬\n");
+    printf("4. æ˜¾ç¤ºæ‰€æœ‰æ–‡æœ¬\n");
+    printf("0. é€€å‡º\n");
     printf("==========================\n");
-    printf("ÇëÑ¡Ôñ£º");
+    printf("è¯·é€‰æ‹©ï¼š");
 }
 void addText() {
     if (count >= MAX_TEXT_NUM) {
-        printf("ÎÄ±¾ÊıÁ¿ÒÑ´ïÉÏÏŞ£¬ÎŞ·¨Ìí¼Ó£¡\n");
+        printf("æ–‡æœ¬æ•°é‡å·²è¾¾ä¸Šé™ï¼Œæ— æ³•æ·»åŠ ï¼\n");
         return;
     }
-    printf("ÇëÊäÈëÎÄ±¾ÄÚÈİ£º");
+    printf("è¯·è¾“å…¥æ–‡æœ¬å†…å®¹ï¼š");
 
     getchar();
     fgets(texts[count], MAX_TEXT_LEN, stdin);
     texts[count][strcspn(texts[count], "\n")] = '\0';
     count++;
-    printf("Ìí¼Ó³É¹¦£¡\n");
+    printf("æ·»åŠ æˆåŠŸï¼\n");
 }
 
 void deleteText() {
     if (count == 0) {
-        printf("ÔİÎŞÎÄ±¾¿ÉÉ¾³ı£¡\n");
+        printf("æš‚æ— æ–‡æœ¬å¯åˆ é™¤ï¼\n");
         return;
     }
 
     int i, index;
-    printf("\nµ±Ç°ÎÄ±¾ÁĞ±í£º\n");
+    printf("\nå½“å‰æ–‡æœ¬åˆ—è¡¨ï¼š\n");
     for (i = 0; i < count; i++) {
         printf("%d. %s\n", i + 1, texts[i]);
     }
 
-    printf("ÇëÊäÈëÒªÉ¾³ıµÄĞòºÅ£º");
+    printf("è¯·è¾“å…¥è¦åˆ é™¤çš„åºå·ï¼š");
     scanf("%d", &index);
     index--;
 
     if (index < 0 || index >= count) {
-        printf("ĞòºÅÎŞĞ§£¡\n");
+        printf("åºå·æ— æ•ˆï¼\n");
         return;
     }
     for (i = index; i < count - 1; i++) {
         strcpy(texts[i], texts[i + 1]);
     }
     count--;
-    printf("É¾³ı³É¹¦£¡\n");
+    printf("åˆ é™¤æˆåŠŸï¼\n");
 }
 void searchText() {
     if (count == 0) {
-        printf("ÔİÎŞÎÄ±¾¿É²éÕÒ£¡\n");
+        printf("æš‚æ— æ–‡æœ¬å¯æŸ¥æ‰¾ï¼\n");
         return;
     }
 
     char key[MAX_TEXT_LEN];
-    printf("ÇëÊäÈë²éÕÒ¹Ø¼ü´Ê£º");
+    printf("è¯·è¾“å…¥æŸ¥æ‰¾å…³é”®è¯ï¼š");
     getchar();
     fgets(key, MAX_TEXT_LEN, stdin);
     key[strcspn(key, "\n")] = '\0';
 
     int found = 0;
-    printf("\n²éÕÒ½á¹û£º\n");
+    printf("\næŸ¥æ‰¾ç»“æœï¼š\n");
     for (int i = 0; i < count; i++) {
         if (strstr(texts[i], key) != NULL) {
             printf("- %s\n", texts[i]);
@@ -79,18 +80,18 @@ void searchText() {
     }
 
     if (!found) {
-        printf("Î´ÕÒµ½°üº¬¹Ø¼ü´ÊµÄÎÄ±¾¡£\n");
+        printf("æœªæ‰¾åˆ°åŒ…å«å…³é”®è¯çš„æ–‡æœ¬ã€‚\n");
     }
 }
 void showAll() {
     if (count == 0) {
-        printf("ÔİÎŞÎÄ±¾£¡\n");
+        printf("æš‚æ— æ–‡æœ¬ï¼\n");
         return;
     }
 
-    printf("\nËùÓĞÎÄ±¾£º\n");
+    printf("\næ‰€æœ‰æ–‡æœ¬ï¼š\n");
     for (int i = 0; i < count; i++) {
-        printf("%d. %s\n", i + 1, texts[i]);
+        printf("%d. %s\n", i + 1, texts[i])ï¼›
     }
 }
 
@@ -106,10 +107,10 @@ int main() {
             case 3: searchText(); break;
             case 4: showAll(); break;
             case 0:
-                printf("ÍË³öÏµÍ³¡£\n");
+                printf("é€€å‡ºç³»ç»Ÿã€‚\n");
                 return 0;
             default:
-                printf("ÊäÈë´íÎó£¬ÇëÖØĞÂÑ¡Ôñ£¡\n");
+                printf("è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°é€‰æ‹©ï¼\n");
         }
     }
     return 0;
