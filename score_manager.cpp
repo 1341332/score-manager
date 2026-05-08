@@ -14,6 +14,7 @@ void menu() {
     printf("2. 删除文本\n");
     printf("3. 查找文本\n");
     printf("4. 显示所有文本\n");
+    printf("5.分页浏览文本\n");
     printf("0. 退出\n");
     printf("==========================\n");
     printf("请选择：");
@@ -83,6 +84,39 @@ void searchText() {
         printf("未找到包含关键词的文本。\n");
     }
 }
+void browseText() {
+    if (count == 0) {
+        printf("暂无文本可浏览！\n");
+        return;
+    }
+
+    int page = 1;
+    int totalPages = (count + PAGE_SIZE - 1) / PAGE_SIZE;
+    char op;
+
+    while (1) {
+        int start = (page - 1) * PAGE_SIZE;
+        int end = start + PAGE_SIZE;
+        if (end > count) end = count;
+
+        printf("\n--- 第 %d / %d 页 ---\n", page, totalPages);
+        for (int i = start; i < end; i++) {
+            printf("%d. %s\n", i + 1, texts[i]);
+        }
+
+        printf("\n操作说明：[n]下一页  [p]上一页 ");
+        scanf(" %c", &op);
+
+        if ((op == 'n' || op == 'N') && page < totalPages) {
+            page++;
+        } else if ((op == 'p' || op == 'P') && page > 1) {
+            page--;
+        } else {
+            printf("无法执行该操作！\n");
+        }
+    }
+}
+
 void showAll() {
     if (count == 0) {
         printf("暂无文本！\n");
