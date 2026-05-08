@@ -104,10 +104,12 @@ void browseText() {
             printf("%d. %s\n", i + 1, texts[i]);
         }
 
-        printf("\n操作说明：[n]下一页  [p]上一页 ");
+        printf("\n操作说明：[n]下一页  [p]上一页  [q]退出浏览\n请输入操作：");
         scanf(" %c", &op);
 
-        if ((op == 'n' || op == 'N') && page < totalPages) {
+        if (op == 'q' || op == 'Q') {
+            break;
+        } else if ((op == 'n' || op == 'N') && page < totalPages) {
             page++;
         } else if ((op == 'p' || op == 'P') && page > 1) {
             page--;
